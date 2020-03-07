@@ -8,14 +8,50 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <title>Accordion</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
+    (function () {
+      'use strict';
+      window.addEventListener('load', function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (form) {
+          form.addEventListener('submit', function (event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+
+            } else {
+              var fName = $("#inputName").val();
+              var lName = $("#lastName").val();
+
+              alert("Hello " + fName + " " + lName);
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
     $(function () {
+
       $("#accordion").accordion({
         collapsible: true
       });
     });
+    function addItem() {
+      var ul = $("#dynamicList")
+      var hobby = $("#hobby").val()
+      var li = document.createElement("li");
+      li.setAttribute('id', hobby);
+      li.appendChild(document.createTextNode(hobby));
+      ul.append(li);
+      // $("#dynamicList").append("<li id='" + hobby + "'>" + hobby + "</li>");
+
+    }
   </script>
 </head>
 
@@ -24,17 +60,35 @@
     <div id="accordion">
 
       <h3>Personal</h3>
+
       <div>
-        <p>
-          Personal Forms Validation
-        </p>
+        <form class="needs-validation" novalidate>
+          <div class="form-row">
+            <div class="col-md-6">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" id="inputName" required>
+            </div>
+            <div class="col-md-6">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" id="lastName" required>
+            </div>
+          </div>
+          <br>
+          <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+        </form>
       </div>
 
       <h3>School</h3>
       <div>
         <p>
-          School
+          Attended and graduated High School at Taylorsville High in 2016.
         </p>
+      </div>
+
+      <h3>Music</h3>
+      <div>
+        <p>Music</p>
+
       </div>
 
       <h3>Hobbies</h3>
@@ -42,11 +96,23 @@
         <p>
           Hobbies - Dynamic List
         </p>
-      </div>
-
-      <h3>Music</h3>
-      <div>
-        <p>Music</p>
+        <ul id="dynamicList">
+          <li>item</li>
+        </ul>
+        <form>
+          <div class="form-row">
+            <div class="col-md-12">
+              <label for="addHobby">Add/Remove a hobby</label>
+            </div>
+            <div class="col-md-3">
+              <input type="text" class="form-control" id="hobby">
+            </div>
+            <div class="col-md-3">
+              <div onclick="addItem()" class="btn btn-primary">Add</div>
+              <!-- <div onclick="removeItem()" class="btn btn-primary">Remove</div> -->
+            </div>
+          </div>
+        </form>
 
       </div>
 
